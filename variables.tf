@@ -9,7 +9,7 @@ variable "org_name" {
   }
 }
 
-variable "defulat_labels" {
+variable "defualt_labels" {
   description = "Labels applied to every, managed repository."
   type = map(object({
     color       = string
