@@ -11,16 +11,24 @@ locals {
     name => merge(var.default_labels, cfg.extra_labels)
   }
 
+  # Physical names, keyed by logical name. You'll need these for outputs and imports.
+  repo_full_names = {
+    for name, cfg in var.repositories : name => "${var.name_prefix}${name}"
+  }
+
+  gitignore_content = data.http.gitignore_template.response_body
+
+  # (UNUSED, but it's the hardest expression in the project and worth keeping as a reference) 
   # Flatten to a set of composite keys for a future for_each
-  label_pairs = merge([
-    for repo, labels in local.repo_labels : {
-      for label, cfg in labels : "${repo}:${label}" => {
-        repo  = repo
-        label = label
-        color = cfg.color
-      }
-    }
-  ]...)
+  #   label_pairs = merge([
+  #     for repo, labels in local.repo_labels : {
+  #       for label, cfg in labels : "${repo}:${label}" => {
+  #         repo  = repo
+  #         label = label
+  #         color = cfg.color
+  #       }
+  #     }
+  #   ]...)
 }
 
 data "http" "gitignore_template" {

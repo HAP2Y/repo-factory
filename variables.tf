@@ -70,4 +70,16 @@ variable "repositories" {
 variable "github_owner" {
   description = "Github user or org that owns the repositories."
   type        = string
+  default     = "HAP2Y"
+}
+
+variable "name_prefix" {
+  description = "Prefix applied to every repository name created by this factory."
+  type        = string
+  default     = "repo-factory-"
+
+  validation {
+    condition     = can(regex("^[a-z0-9][a-z0-9-]*-$", var.name_prefix))
+    error_message = "name_prefix must be lowercase, URL-safe, and end with a hyphen."
+  }
 }
