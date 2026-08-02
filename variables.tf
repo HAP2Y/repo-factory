@@ -10,7 +10,7 @@ variable "org_name" {
 }
 
 variable "default_labels" {
-  description = "Labels applied to every, managed repository."
+  description = "Labels applied to every managed repository."
   type = map(object({
     color       = string
     description = string
@@ -57,13 +57,24 @@ variable "repositories" {
   default = {}
 
   validation {
-    condition     = alltrue([for name, r in var.repositories : can(regex("^[a-z0-9][a-z0-9._-]{0,80}$", name))])
+    condition = alltrue([
+      for name, r in var.repositories : can(regex("^[a-z0-9][a-z0-9._-]{0,80}$", name))
+    ])
     error_message = "Repository names must be lowercase and URL-safe."
   }
 
   validation {
-    condition     = alltrue([for name, r in var.repositories : contains(["public", "private"], r.visibility)])
+    condition = alltrue([
+      for name, r in var.repositories : contains(["public", "private"], r.visibility)
+    ])
     error_message = "Visibility must be either 'public' or 'private'."
+  }
+
+  validation {
+    condition = alltrue([
+      for name, r in var.repositories : r.required_reviewer >= 0 && r.required_reviewers <= 6
+    ])
+    error_message = "GitHub supports between 0 and 6 required approving reviews."
   }
 }
 
