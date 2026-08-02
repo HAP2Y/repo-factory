@@ -4,12 +4,12 @@ variable "org_name" {
   default     = "platform"
 
   validation {
-    condition     = can(regex("[a-z][a-z0-9-]{2,20}$", var.org_name))
+    condition     = can(regex("^[a-z][a-z0-9-]{2,20}$", var.org_name))
     error_message = "org_name must be lowercase alphanumeric with hyphens, 3-21 chars."
   }
 }
 
-variable "defualt_labels" {
+variable "default_labels" {
   description = "Labels applied to every, managed repository."
   type = map(object({
     color       = string
@@ -36,7 +36,7 @@ variable "defualt_labels" {
   }
 
   validation {
-    condition     = alltrue([for name, l in var.defualt_labels : can(regex("^[0-9a-fA-F]{6}$", l.color))])
+    condition     = alltrue([for name, l in var.default_labels : can(regex("^[0-9a-fA-F]{6}$", l.color))])
     error_message = "Every label colour must be a 6-digit hex code without a leading #."
   }
 }
@@ -57,7 +57,7 @@ variable "repositories" {
   default = {}
 
   validation {
-    condition     = alltrue([for name, r in var.repositories : can(regex("^[a-z0-9][a-z0-9._-]{0-99}$", name))])
+    condition     = alltrue([for name, r in var.repositories : can(regex("^[a-z0-9][a-z0-9._-]{0,80}$", name))])
     error_message = "Repository names must be lowercase and URL-safe."
   }
 

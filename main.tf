@@ -1,21 +1,24 @@
 locals {
   managed_by = "terraform"
+
+  # The general rule: timestamp(), uuid(), and bcrypt() are impure. 
+  # If you need a stable generated value, use the random provider, which stores its result in state and therefore stays stable.
   timestamp = formatdate("YYYY-MM-DD", timestamp())
 
   # Merge default labels with per-repo extras
   repo_labels = {
     for name, cfg in var.repositories :
-    name => merge(var.defualt_labels, cfg.extra_labels)
+    name => merge(var.default_labels, cfg.extra_labels)
   }
 
   # Flatten to a set of composite keys for a future for_each
   label_pairs = merge([
     for repo, labels in local.repo_labels : {
-        for label, cfg in labels : "${repo}:${label}" => {
-            repo = repo
-            label = label
-            color = cfg.color
-        }
+      for label, cfg in labels : "${repo}:${label}" => {
+        repo  = repo
+        label = label
+        color = cfg.color
+      }
     }
   ]...)
 }
@@ -34,7 +37,7 @@ data "http" "gitignore_template" {
 
 check "gitignore_fetch_succeeded" {
   assert {
-    condition = data.http.gitignore_template.status_code == 200
+    condition     = data.http.gitignore_template.status_code == 200
     error_message = "Could not fetch the upstream .gitignore template."
   }
 }
