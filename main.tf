@@ -2,7 +2,7 @@
 ## ----- MODULE -----
 ##
 module "repo" {
-  source   = "./modules/repo"
+  source   = "git::https://github.com/HAP2Y/repo-factory.git//modules/repo?ref=v1.0.0"
   for_each = var.repositories
 
   name        = each.key
