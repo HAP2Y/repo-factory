@@ -14,6 +14,7 @@ tfplan
 # Real variable values. The .example file IS committed.
 terraform.tfvars
 *.auto.tfvars
+!repositories.auto.tfvars
 *.tfvars.secret
 
 # Local experiments.

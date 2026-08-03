@@ -44,3 +44,12 @@ check "gitignore_fetch_succeeded" {
     error_message = "Could not fetch the upstream .gitignore template."
   }
 }
+
+check "all_repos_carry_the_prefix" {
+  assert {
+    condition = alltrue([
+      for name, mod in module.repo : startswith(mod.repository_name, var.name_prefix)
+    ])
+    error_message = "Every managed repository must carry the \"${var.name_prefix}\" prefix."
+  }
+}
