@@ -48,13 +48,17 @@ resource "github_branch_protection" "this" {
   }
 }
 
-resource "github_issue_label" "this" {
-  for_each = var.labels
+resource "github_issue_labels" "this" {
+  repository = github_repository.this.name
 
-  repository  = github_repository.this.name
-  name        = each.key
-  color       = each.value.color
-  description = each.value.description
+  dynamic "label" {
+    for_each = var.labels
+    content {
+      name        = label.key
+      color       = label.value.color
+      description = label.value.description
+    }
+  }
 }
 
 resource "tls_private_key" "deploy" {
