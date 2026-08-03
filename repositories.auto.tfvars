@@ -1,5 +1,3 @@
-github_owner = "hap2y-platform"
-org_name     = "platform"
 name_prefix  = "repo-factory-"
 
 repositories = {

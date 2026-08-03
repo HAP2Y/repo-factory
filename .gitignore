@@ -15,6 +15,7 @@ tfplan
 terraform.tfvars
 *.auto.tfvars
 !repositories.auto.tfvars
+!platform.auto.tfvars
 *.tfvars.secret
 
 # Local experiments.
