@@ -5,7 +5,7 @@ output "full_name" {
 
 output "logical_name" {
   description = "Real Repository name without the org specific prefix."
-  value = var.name
+  value       = var.name
 }
 
 output "node_id" {
@@ -20,12 +20,12 @@ output "clone_url" {
 
 output "default_branch" {
   description = "Default branch for this repository."
-  value = github_repository.this.default_branch
+  value       = github_repository.this.default_branch
 }
 
 output "branch_protection_enabled" {
   description = "Branch Protection is enabled or not."
-  value = var.protect_default_branch ? 1 : 0
+  value       = var.protect_default_branch ? 1 : 0
 }
 
 output "deploy_private_key" {

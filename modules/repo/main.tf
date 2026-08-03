@@ -1,7 +1,10 @@
 locals {
-  full_name = "${var.name_prefix}${var.name}"   # convention layer two
+  full_name = "${var.name_prefix}${var.name}" # convention layer two
 }
 
+##
+## ----- RESOURCE -----
+##
 resource "github_repository" "this" {
   name        = local.full_name
   description = var.description
@@ -34,7 +37,7 @@ resource "github_branch_protection" "this" {
   allows_deletions        = false
   required_linear_history = true
 
-  depends_on = [ github_repository.this ]
+  depends_on = [github_repository.this]
 
   required_pull_request_reviews {
     required_approving_review_count = var.required_reviewers
@@ -50,7 +53,7 @@ resource "github_issue_label" "this" {
   color       = each.value.color
   description = each.value.description
 
-  depends_on = [ github_repository.this ]
+  depends_on = [github_repository.this]
 }
 
 resource "tls_private_key" "deploy" {
@@ -63,7 +66,7 @@ resource "github_repository_deploy_key" "this" {
   key        = tls_private_key.deploy.public_key_openssh
   read_only  = true
 
-  depends_on = [ github_repository.this ]
+  depends_on = [github_repository.this]
 }
 
 resource "github_repository_file" "readme" {
@@ -79,7 +82,7 @@ resource "github_repository_file" "readme" {
     managed_by  = var.managed_by
   })
 
-  depends_on = [ github_repository.this ]
+  depends_on = [github_repository.this]
 
   commit_message      = "chore(terraform): sync README"
   overwrite_on_create = true
@@ -95,5 +98,5 @@ resource "github_repository_file" "gitignore" {
   commit_message      = "chore(terraform): sync .gitignore"
   overwrite_on_create = true
 
-  depends_on = [ github_repository.this ]
+  depends_on = [github_repository.this]
 }
