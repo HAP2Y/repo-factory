@@ -28,4 +28,4 @@ crash.log
 crash.*.log
 .DS_Store
 
-# NOTE: .terraform.lock.hcl is deliberately NOT ignored — it must be committed.
+# NOTE: .terraform.lock.hcl is deliberately NOT ignored — it must be committed.modules/*/.terraform.lock.hcl

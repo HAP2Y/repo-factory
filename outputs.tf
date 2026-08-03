@@ -1,5 +1,5 @@
 output "managed_repositories" {
-  value = { for name, mod in module.repo : name => mod.full_names }
+  value = { for name, mod in module.repo : name => mod.full_name }
 }
 
 output "repository_count" {

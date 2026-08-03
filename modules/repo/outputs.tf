@@ -3,6 +3,11 @@ output "full_name" {
   value       = github_repository.this.full_name
 }
 
+output "repository_name" {
+  description = "Physical repository name including the factory prefix."
+  value       = github_repository.this.name
+}
+
 output "logical_name" {
   description = "Real Repository name without the org specific prefix."
   value       = var.name
@@ -20,12 +25,12 @@ output "clone_url" {
 
 output "default_branch" {
   description = "Default branch for this repository."
-  value       = github_repository.this.default_branch
+  value       = var.default_branch
 }
 
 output "branch_protection_enabled" {
   description = "Branch Protection is enabled or not."
-  value       = var.protect_default_branch ? 1 : 0
+  value       = length(github_branch_protection.this) > 0
 }
 
 output "deploy_private_key" {

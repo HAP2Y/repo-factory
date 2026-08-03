@@ -72,7 +72,7 @@ variable "repositories" {
 
   validation {
     condition = alltrue([
-      for name, r in var.repositories : r.required_reviewer >= 0 && r.required_reviewers <= 6
+      for name, r in var.repositories : r.required_reviewers >= 0 && r.required_reviewers <= 6
     ])
     error_message = "GitHub supports between 0 and 6 required approving reviews."
   }
@@ -81,7 +81,7 @@ variable "repositories" {
 variable "github_owner" {
   description = "Github user or org that owns the repositories."
   type        = string
-  default     = "HAP2Y"
+  default     = "hap2y-platform"
 }
 
 variable "name_prefix" {

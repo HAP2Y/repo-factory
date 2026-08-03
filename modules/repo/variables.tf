@@ -68,3 +68,9 @@ variable "managed_by" {
   type        = string
   default     = "terraform"
 }
+
+variable "default_branch" {
+  description = "Default branch name. auto_init creates \"main\"; change only if you change that."
+  type        = string
+  default     = "main"
+}
